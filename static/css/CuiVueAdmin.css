@@ -39,16 +39,16 @@ body {
   transition: none;
 }
 /* Content */
-.content {
+/* .content {
     min-height: 250px;
     padding: 15px;
     margin-right: auto;
     margin-left: auto;
     padding-left: 15px;
     padding-right: 15px;
-}
+} */
 /* H1 - H6 font */
-h1,
+/* h1,
 h2,
 h3,
 h4,
@@ -61,7 +61,7 @@ h6,
 .h5,
 .h6 {
     font-family: 'Source Sans Pro', sans-serif;
-}
+}*/
 a {
     color: #3c8dbc;
 }
@@ -80,18 +80,19 @@ a:focus {
     position: relative;
     max-height: 100px;
     z-index: 1030;
+    height: 60px;
 }
 .main-header .navbar {
     -webkit-transition: margin-left 0.3s ease-in-out;
     -o-transition: margin-left 0.3s ease-in-out;
     transition: margin-left 0.3s ease-in-out;
     margin-bottom: 0;
-    margin-left: 230px;
+    /* margin-left: 230px; */
     border: none;
-    min-height: 50px;
+    min-height: 60px;
     border-radius: 0;
 }
-.layout-top-nav .main-header .navbar {
+/* .layout-top-nav .main-header .navbar {
     margin-left: 0;
 }
 .main-header #navbar-search-input.form-control {
@@ -112,7 +113,7 @@ a:focus {
 }
 .main-header #navbar-search-input.form-control::-webkit-input-placeholder {
     color: #ccc;
-}
+}*/
 .main-header .navbar-custom-menu,
 .main-header .navbar-right {
     float: right;
@@ -124,7 +125,7 @@ a:focus {
       background: transparent;
     }
 }
-@media (max-width: 767px) {
+/*@media (max-width: 767px) {
     .main-header .navbar-right {
       float: none;
     }
@@ -135,12 +136,12 @@ a:focus {
       color: inherit;
       border: 0;
     }
-}
+}*/
 .main-header .sidebar-toggle {
     float: left;
     background-color: transparent;
     background-image: none;
-    padding: 15px 15px;
+    padding: 17px 17px;
     font-family: Ionicons;
 }
 .main-header .sidebar-toggle:before {
@@ -163,7 +164,7 @@ a:focus {
 .main-header .sidebar-toggle .icon-bar {
     display: none;
 }
-.main-header .navbar .nav > li.user > a > .fa,
+/* .main-header .navbar .nav > li.user > a > .fa,
 .main-header .navbar .nav > li.user > a > .glyphicon,
 .main-header .navbar .nav > li.user > a > .ion {
     margin-right: 5px;
@@ -176,16 +177,16 @@ a:focus {
     font-size: 9px;
     padding: 2px 3px;
     line-height: .9;
-}
+} */
 .main-header .logo {
     -webkit-transition: width 0.3s ease-in-out;
     -o-transition: width 0.3s ease-in-out;
     transition: width 0.3s ease-in-out;
     display: block;
     float: left;
-    height: 50px;
+    height: 60px;
     font-size: 20px;
-    line-height: 50px;
+    line-height: 60px;
     text-align: center;
     width: 230px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -193,15 +194,15 @@ a:focus {
     font-weight: 300;
     overflow: hidden;
 }
-.main-header .logo img {
+/*.main-header .logo img {
     padding: 4px;
     object-fit: contain;
     margin: 0 auto;
-}
+}*/
 .main-header .logo .logo-lg {
     display: block;
 }
-.main-header .logo .logo-lg img {
+/*.main-header .logo .logo-lg img {
     max-width: 200px;
     max-height: 50px;
 }
@@ -229,4 +230,46 @@ a:focus {
 }
 .main-header .navbar-brand {
     color: #fff;
+} */
+@media (max-width: 991px) {
+  .navbar-custom-menu .navbar-nav > li {
+    float: left;
+  }
+  .navbar-custom-menu .navbar-nav {
+    margin: 0;
+    float: left;
+  }
+  .navbar-custom-menu .navbar-nav > li > a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    line-height: 20px;
+  }
+}
+/*
+ * Component: Dropdown menus
+ * -------------------------
+ */
+/*Dropdowns in general*/
+
+
+
+/* Fix dropdown menu in navbars */
+/* .navbar-custom-menu > .navbar-nav > li {
+  position: relative;
+} */
+.user-menu .user-image {
+    float: left;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-top: -2px;
+}
+@media (max-width: 767px) {
+    .user-menu .user-image {
+        float: none;
+        margin-right: 0;
+        margin-top: -8px;
+        line-height: 10px;
+    }
 }
