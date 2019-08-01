@@ -13,11 +13,11 @@ export const setToken = (token) => {
 
 export const getToken = () => {
 	if(isCookie) {
-		const token = Cookies.get(TOKEN_KEY)
+		var token = Cookies.get(TOKEN_KEY)
 	} else {
-		const token = localStorage.getItem(TOKEN_KEY)
+		var token = localStorage.getItem(TOKEN_KEY)
 	}
-  
+
   	if (token) return token
   	else return false
 }
