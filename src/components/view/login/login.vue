@@ -8,10 +8,10 @@
 			<p class="cui-login-box-msg">请输入您的账号密码登录系统！</p>
 			<Form ref="formLogin" :model="formLogin" label-position="top" :rules="ruleValidate">
 				<FormItem label="" prop="username">
-					<Input v-model="formLogin.username" placeholder="请输入用户名" icon="ios-person-outline"></Input>
+					<Input type="text" v-model="formLogin.username" placeholder="请输入用户名" icon="ios-person-outline"></Input>
 				</FormItem>
 				<FormItem label="" prop="password">
-					<Input v-model="formLogin.password" placeholder="请输入密码" icon="ios-lock-outline"></Input>
+					<Input type="password" v-model="formLogin.password" placeholder="请输入密码" icon="ios-lock-outline"></Input>
 				</FormItem>
 				<FormItem>
 					<Button type="primary" long @click="handleSubmit('formLogin')">登 录</Button>
@@ -34,10 +34,16 @@ export default {
 			},
 			ruleValidate: {
 				username: [
-					{ required: true, message: '请输入用户名！', trigger: 'blur' }
+					{ required: true, message: '请输入用户名！', trigger: 'blur' },
+					{ min: 6, message: '用户名最短6个字符！', trigger: 'blur' },
+					{ pattern: /^[A-Za-z0-9_]+$/, message: '用户名只支持大小写英文字母,数字和下划线！', trigger: 'blur' },
+					{ max: 24, message: '用户名最长24个字符', trigger: 'blur' }
 				],
 				password: [
-					{ required: true, message: '请输入密码！', trigger: 'blur' }
+					{ required: true, message: '请输入密码！', trigger: 'blur' },
+					{ min: 6, message: '密码最短6个字符！', trigger: 'blur' },
+					{ pattern: /^[A-Za-z0-9_@!~]+$/, message: '密码只支持大小写英文字母,数字和特殊符号(_@!~)！', trigger: 'blur' },
+					{ max: 24, message: '密码最长24个字符', trigger: 'blur' }
 				]
 			}
 		}
