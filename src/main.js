@@ -16,6 +16,15 @@ Vue.config.productionTip = false // 阻止 vue 在启动时生成生产提示
 
 Vue.use(iView, { locale })
 
+// 设定全局自定义命令
+Vue.directive(
+	'focus', {
+		inserted: function (el) {
+      		el.focus()
+    	}
+	}
+)
+
 /* eslint-disable no-new */
 new Vue({
 	el: '#app',
