@@ -7,6 +7,7 @@ import {
 	getToken,
 	canTurnTo
 } from '@/libs/util' // 工具方法
+import { LOGIN_PAGE_NAME, HOME_PAGE_NAME } from '@/config/config' // 导入公共变量
 
 Vue.use(Router)
 
@@ -20,8 +21,6 @@ iView.LoadingBar.config({
 	failedColor: '#f0ad4e',
 	height: 5
 })
-
-const LOGIN_PAGE_NAME = 'login'
 
 router.beforeEach((to, from, next) => {
 	iView.LoadingBar.start()
@@ -37,7 +36,7 @@ router.beforeEach((to, from, next) => {
 	} else if (token && to.name === LOGIN_PAGE_NAME) {
 		// 已登录且要跳转的页面是登录页
 		next({
-			name: 'home' // 跳转到home页
+			name: HOME_PAGE_NAME // 跳转到home页
 		})
 	} else {
 		// 	store.dispatch('getUserInfo').then(user => {

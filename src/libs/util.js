@@ -1,8 +1,8 @@
 import Cookies from 'js-cookie'
 import { forEach, hasOneOf, isCookie } from '@/libs/tools'
+import { TOKEN_KEY } from '@/config/config' // 导入公共变量
 
-export const TOKEN_KEY = 'cuivue-admin-token'
-
+// 设置token
 export const setToken = (token) => {
 	if(isCookie) {
 		Cookies.set(TOKEN_KEY, token, {expires: 1})
@@ -11,6 +11,7 @@ export const setToken = (token) => {
 	}
 }
 
+// 读取token
 export const getToken = () => {
 	if(isCookie) {
 		var token = Cookies.get(TOKEN_KEY)
@@ -20,6 +21,15 @@ export const getToken = () => {
 
   	if (token) return token
   	else return false
+}
+
+// 销毁token
+export const delToken = () => {
+	if(isCookie) {
+		Cookies.remove(TOKEN_KEY)
+	} else {
+		localStorage.removeItem(TOKEN_KEY)
+	}
 }
 
 export const hasChild = (item) => {

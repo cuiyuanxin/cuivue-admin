@@ -3,7 +3,7 @@
         <div class="layout-header">
             <Header :collapsed="collapsed" @on-toggle="handleNavToggle" />
         </div>
-        
+
     </div>
 </template>
 

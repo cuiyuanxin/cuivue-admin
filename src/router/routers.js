@@ -5,7 +5,7 @@ export default [
 		path: '/login',
 		name: 'login',
 		meta: {
-			title: 'Login - 登录',
+			title: '登录',
 			hideInMenu: true
 		},
 		component: () => import('@/components/view/login/login.vue')
@@ -25,7 +25,7 @@ export default [
 			name: 'home',
 			meta: {
 				hideInMenu: true,
-				title: '首页',
+				title: '控制台',
 				notCache: true,
 				icon: 'home'
 			},

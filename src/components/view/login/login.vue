@@ -6,12 +6,18 @@
 		</div>
 		<div class="cui-login-box-body">
 			<p class="cui-login-box-msg">请输入您的账号密码登录系统！</p>
-			<Form ref="formLogin" :model="formLogin" label-position="top" :rules="ruleValidate">
+			<Form ref="formLogin" :model="formLogin" label-position="top" :rules="ruleValidate" @keyup.enter.native="handleSubmit('formLogin')">
 				<FormItem label="" prop="username">
 					<Input type="text" v-model="formLogin.username" placeholder="请输入用户名" icon="ios-person-outline"></Input>
 				</FormItem>
 				<FormItem label="" prop="password">
 					<Input type="password" v-model="formLogin.password" placeholder="请输入密码" icon="ios-lock-outline"></Input>
+				</FormItem>
+				<FormItem>
+					<img :src="formLogin.verifyImg" alt="验证码" class="cui-verify-img" v-on:click="refreshVerify" title="点击获取">
+				</FormItem>
+				<FormItem label="" prop="verify">
+					<Input type="text" v-model="formLogin.verify" placeholder="请输入验证码" icon="ios-code" ></Input>
 				</FormItem>
 				<FormItem>
 					<Button type="primary" long @click="handleSubmit('formLogin')">登 录</Button>
@@ -24,26 +30,79 @@
 </template>
 
 <script>
+import { TITLE } from '@/config/config' // 导入公共变量
+import { mapMutations, mapActions } from 'vuex'
+import { getVerify, login } from '@/api/login'
 export default {
 	name: 'login',
 	data() {
+		const validateUserName = (rule, value, callback) => {
+            if (value === '') {
+                callback(new Error('请输入用户名！'))
+            } else {
+				login(value, this.formLogin.password, this.formLogin.verify).then((res) => {
+					if(res.code == 10 && res.data.username) {
+						callback(new Error(res.data.username))
+					} else {
+						callback()
+					}
+				})
+            }
+        }
+		const validatePassword = (rule, value, callback) => {
+            if (value === '') {
+                callback(new Error('请输入密码！'))
+            } else {
+				login(this.formLogin.username, value, this.formLogin.verify).then((res) => {
+					if(res.code == 10 && res.data.password) {
+						callback(new Error(res.data.password))
+					} else {
+						callback()
+					}
+				})
+            }
+        }
+		const validateVerify = (rule, value, callback) => {
+            if (value === '') {
+                callback(new Error('请输入验证码！'))
+            } else {
+				login(this.formLogin.username, this.formLogin.password, value).then((res) => {
+					if(res.code == 10 && res.data.verify) {
+						callback(new Error(res.data.verify))
+						this.refreshVerify()
+					} else {
+						callback()
+					}
+				})
+            }
+        }
 		return {
 			formLogin: {
 				username: '',
-				password: ''
+				password: '',
+				verify: '',
+				verifyImg: getVerify
 			},
 			ruleValidate: {
 				username: [
 					{ required: true, message: '请输入用户名！', trigger: 'blur' },
 					{ min: 6, message: '用户名最短6个字符！', trigger: 'blur' },
-					{ pattern: /^[A-Za-z0-9_]+$/, message: '用户名只支持大小写英文字母,数字和下划线！', trigger: 'blur' },
-					{ max: 24, message: '用户名最长24个字符', trigger: 'blur' }
+					{ pattern: /^[A-Za-z0-9_-]+$/, message: '用户名只支持大小写英文字母,数字,下划线和破折号！', trigger: 'blur' },
+					{ max: 20, message: '用户名最长20个字符！', trigger: 'blur' },
+					{ validator: validateUserName, trigger: 'blur' }
 				],
 				password: [
 					{ required: true, message: '请输入密码！', trigger: 'blur' },
 					{ min: 6, message: '密码最短6个字符！', trigger: 'blur' },
-					{ pattern: /^[A-Za-z0-9_@!~]+$/, message: '密码只支持大小写英文字母,数字和特殊符号(_@!~)！', trigger: 'blur' },
-					{ max: 24, message: '密码最长24个字符', trigger: 'blur' }
+					{ pattern: /^[A-Za-z0-9_@!~-]+$/, message: '密码只支持大小写英文字母,数字和特殊符号(_@!~-)！', trigger: 'blur' },
+					{ max: 25, message: '密码最长25个字符！', trigger: 'blur' },
+					{ validator: validatePassword, trigger: 'blur' }
+				],
+				verify: [
+					{ required: true, message: '请输入验证码！', trigger: 'blur' },
+					{ length: 6, message: '请输入6个字符的验证码！', trigger: 'blur' },
+					{ pattern: /^[A-Za-z0-9]+$/, message: '验证码只支持英文字母,数字！', trigger: 'blur' },
+					{ validator: validateVerify, trigger: 'blur' }
 				]
 			}
 		}
@@ -157,42 +216,24 @@ export default {
 		}
 	},
 	methods: {
+		// 刷新验证码
+		refreshVerify: function() {
+			this.formLogin.verifyImg = getVerify
+			if(this.formLogin.verify) {
+				this.formLogin.verify = ''
+			}
+		},
 		// 点击提交表单
 		handleSubmit(name) {
-			this.$refs[name].validate((valid) => {
+			const that = this
+			that.$refs[name].validate((valid) => {
 				if (valid) {
-					this.$Message.success('Success!');
-				} else {
-					this.$Message.error('Fail!');
+					login(that.formLogin.username, that.formLogin.password, that.formLogin.verify).then((res) => {
+						console.log(res)
+					})
 				}
 			})
 		}
-		// onSubmit(event) {
-		// 	let _this = this;
-		// 	if (!_this.username || !_this.password) {
-		// 		layer.msg('请输入账号或密码！', {time: 3000, icon:5});
-		// 	} else {
-		// 		let formData = {
-		// 			username: _this.username,
-		// 			password: _this.password
-		// 		};
-		// 		_this.$post(_this.$api.loginApi, formData).then((response) => {
-		// 			if(response.code === 800) {
-		// 				layer.msg(response.msg, {time: 3000, icon:5});
-		// 			} else if(response.code === 0) {
-		// 				// 数据保存
-		// 				sessionStorage.setItem('login-token', JSON.stringify(response.data));
-		// 				sessionStorage.setItem('username', _this.username);
-		// 				_this.$store.commit('setToken', response.data.token);
-		// 				_this.$store.commit('setLoginTime', response.data.time);
-		// 				_this.$store.commit('setUsername', _this.username);
-		// 				layer.msg(response.msg, function() {
-		// 					_this.$router.push('/');
-		// 				});
-		// 			}
-		// 		});
-		// 	}
-		// }
 	}
 }
 </script>

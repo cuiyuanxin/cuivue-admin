@@ -6,6 +6,7 @@ import router from './router' // 导入路由核心
 import store from './store' // 导入vuex
 import iView from 'iview' // 导入iview组件
 // import '@/mock' // 导入模拟数据
+// import global from './config' // 导入公共变量
 import 'iview/dist/styles/iview.css' // 导入iview样式表
 import '@/assets/icons/iconfont.css' // 导入icon样式表
 import '../static/css/index.css' // 导入自定义布局样式表
@@ -18,11 +19,11 @@ Vue.use(iView, { locale })
 
 // 设定全局自定义命令
 Vue.directive(
-	'focus', {
-		inserted: function (el) {
-      		el.focus()
-    	}
-	}
+	// 'focus', {
+	// 	inserted: function (el) {
+    //   		el.focus()
+    // 	}
+	// }
 )
 
 /* eslint-disable no-new */
@@ -30,5 +31,6 @@ new Vue({
 	el: '#app',
 	router,
 	store,
+	// global,
 	render: h => h(App)
 })

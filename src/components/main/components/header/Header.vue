@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import IconFont from '../../../public/icon-font'
+import IconFont from '@/components/public/icon-font'
 import { mapMutations, mapActions } from 'vuex'
 export default {
   	name: 'Header',
