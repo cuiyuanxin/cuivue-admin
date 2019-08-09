@@ -13,12 +13,12 @@
 				<FormItem label="" prop="password">
 					<Input type="password" v-model="formLogin.password" placeholder="请输入密码" icon="ios-lock-outline"></Input>
 				</FormItem>
-				<FormItem>
+				<!-- <FormItem>
 					<img :src="formLogin.verifyImg" alt="验证码" class="cui-verify-img" v-on:click="refreshVerify" title="点击获取">
 				</FormItem>
 				<FormItem label="" prop="verify">
 					<Input type="text" v-model="formLogin.verify" placeholder="请输入验证码" icon="ios-code" ></Input>
-				</FormItem>
+				</FormItem> -->
 				<FormItem>
 					<Button type="primary" long @click="handleSubmit('formLogin')">登 录</Button>
 				</FormItem>
@@ -32,77 +32,29 @@
 <script>
 import { TITLE } from '@/config/config' // 导入公共变量
 import { mapMutations, mapActions } from 'vuex'
-import { getVerify, login } from '@/api/login'
+import { getVerify, setLogin, isValidation } from '@/api/login'
 export default {
 	name: 'login',
 	data() {
-		const validateUserName = (rule, value, callback) => {
-            if (value === '') {
-                callback(new Error('请输入用户名！'))
-            } else {
-				login(value, this.formLogin.password, this.formLogin.verify).then((res) => {
-					if(res.code == 10 && res.data.username) {
-						callback(new Error(res.data.username))
-					} else {
-						callback()
-					}
-				})
-            }
-        }
-		const validatePassword = (rule, value, callback) => {
-            if (value === '') {
-                callback(new Error('请输入密码！'))
-            } else {
-				login(this.formLogin.username, value, this.formLogin.verify).then((res) => {
-					if(res.code == 10 && res.data.password) {
-						callback(new Error(res.data.password))
-					} else {
-						callback()
-					}
-				})
-            }
-        }
-		const validateVerify = (rule, value, callback) => {
-            if (value === '') {
-                callback(new Error('请输入验证码！'))
-            } else {
-				login(this.formLogin.username, this.formLogin.password, value).then((res) => {
-					if(res.code == 10 && res.data.verify) {
-						callback(new Error(res.data.verify))
-						this.refreshVerify()
-					} else {
-						callback()
-					}
-				})
-            }
-        }
 		return {
 			formLogin: {
 				username: '',
 				password: '',
-				verify: '',
-				verifyImg: getVerify
+				// verify: '',
+				// verifyImg: getVerify
 			},
 			ruleValidate: {
 				username: [
 					{ required: true, message: '请输入用户名！', trigger: 'blur' },
 					{ min: 6, message: '用户名最短6个字符！', trigger: 'blur' },
 					{ pattern: /^[A-Za-z0-9_-]+$/, message: '用户名只支持大小写英文字母,数字,下划线和破折号！', trigger: 'blur' },
-					{ max: 20, message: '用户名最长20个字符！', trigger: 'blur' },
-					{ validator: validateUserName, trigger: 'blur' }
+					{ max: 20, message: '用户名最长20个字符！', trigger: 'blur' }
 				],
 				password: [
 					{ required: true, message: '请输入密码！', trigger: 'blur' },
 					{ min: 6, message: '密码最短6个字符！', trigger: 'blur' },
 					{ pattern: /^[A-Za-z0-9_@!~-]+$/, message: '密码只支持大小写英文字母,数字和特殊符号(_@!~-)！', trigger: 'blur' },
-					{ max: 25, message: '密码最长25个字符！', trigger: 'blur' },
-					{ validator: validatePassword, trigger: 'blur' }
-				],
-				verify: [
-					{ required: true, message: '请输入验证码！', trigger: 'blur' },
-					{ length: 6, message: '请输入6个字符的验证码！', trigger: 'blur' },
-					{ pattern: /^[A-Za-z0-9]+$/, message: '验证码只支持英文字母,数字！', trigger: 'blur' },
-					{ validator: validateVerify, trigger: 'blur' }
+					{ max: 25, message: '密码最长25个字符！', trigger: 'blur' }
 				]
 			}
 		}
@@ -226,11 +178,16 @@ export default {
 		// 点击提交表单
 		handleSubmit(name) {
 			const that = this
-			that.$refs[name].validate((valid) => {
+			that.$refs[name].validate(valid => {
 				if (valid) {
-					login(that.formLogin.username, that.formLogin.password, that.formLogin.verify).then((res) => {
-						console.log(res)
+					setLogin(that.formLogin.username, that.formLogin.password).then((res) => {
+						if(res.code == 0) {
+
+						}
 					})
+				} else {
+					console.log('error submit!!')
+        			return false
 				}
 			})
 		}

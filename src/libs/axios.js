@@ -61,17 +61,16 @@ class httpRequest {
 		})
 	}
 	// 创建实例
-	create(url) {
+	create() {
 		let conf = {
 			baseURL: BASE_URL,
 			// timeout: 2000,
 			headers: {
 				'Content-Type': 'application/json; charset=utf-8',
 				'X-URL-PATH': location.pathname
-			},
-			withCredentials: true
+			}
+			// withCredentials: true
 		}
-		if(url == '/admin/login/login')
 		return Axios.create(conf)
 	}
 	// 合并请求实例
@@ -80,7 +79,7 @@ class httpRequest {
 	}
 	// 请求实例
 	request(options) {
-		var instance = this.create(options.url)
+		var instance = this.create()
 		this.interceptors(instance, options.url)
 		options = Object.assign({}, options)
 		this.queue[options.url] = instance

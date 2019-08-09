@@ -5,14 +5,27 @@ import { BASE_URL } from '@/config/config' // 导入公共变量
 export const getVerify = BASE_URL + '/admin/login/verify' + '?' + Math.random()
 
 // 登录后台
-export const login = (username, password, verify) => {
+export const setLogin = (username, password) => {
 	const data = {
 		username,
-		password,
-        verify
+		password
 	}
 	return axios.request({
 		url: '/admin/login/login',
+		data,
+		method: 'post'
+	})
+}
+
+// 验证登录表单
+export const isValidation = (username, password) => {
+	const data = {
+		fun: 'login',
+		username,
+		password
+	}
+	return axios.request({
+		url: '/admin/login/validation',
 		data,
 		method: 'post'
 	})
