@@ -4,8 +4,8 @@ import { TOKEN_KEY } from '@/config/config' // 导入公共变量
 
 // 设置token
 export const setToken = (token) => {
-	if(isCookie) {
-		Cookies.set(TOKEN_KEY, token, {expires: 1})
+	if (isCookie) {
+		Cookies.set(TOKEN_KEY, token, { expires: 1 })
 	} else {
 		localStorage.setItem(TOKEN_KEY, token)
 	}
@@ -13,19 +13,19 @@ export const setToken = (token) => {
 
 // 读取token
 export const getToken = () => {
-	if(isCookie) {
+	if (isCookie) {
 		var token = Cookies.get(TOKEN_KEY)
 	} else {
 		var token = localStorage.getItem(TOKEN_KEY)
 	}
 
-  	if (token) return token
-  	else return false
+	if (token) return token
+	else return false
 }
 
 // 销毁token
 export const delToken = () => {
-	if(isCookie) {
+	if (isCookie) {
 		Cookies.remove(TOKEN_KEY)
 	} else {
 		localStorage.removeItem(TOKEN_KEY)
@@ -33,7 +33,7 @@ export const delToken = () => {
 }
 
 export const hasChild = (item) => {
-  return item.children && item.children.length !== 0
+	return item.children && item.children.length !== 0
 }
 
 /**
@@ -43,29 +43,29 @@ export const hasChild = (item) => {
   } else return true
  */
 const showThisMenuEle = (item, access) => {
-  return true
+	return true
 }
 /**
  * @param {Array} list 通过路由列表得到菜单列表
  * @returns {Array}
  */
 export const getMenuByRouter = (list, access) => {
-  let res = []
-  forEach(list, item => {
-    if (item.meta && !item.meta.hideInMenu) {
-      let obj = {
-        icon: (item.meta && item.meta.icon) || '',
-        name: item.name,
-        meta: item.meta
-      }
-      if (hasChild(item) && showThisMenuEle(item, access)) {
-        obj.children = getMenuByRouter(item.children, access)
-      }
-      if (item.meta.href) obj.href = item.meta.href
-      if (showThisMenuEle(item, access)) res.push(obj)
-    }
-  })
-  return res
+	let res = []
+	forEach(list, item => {
+		if (item.meta && !item.meta.hideInMenu) {
+			let obj = {
+				icon: (item.meta && item.meta.icon) || '',
+				name: item.name,
+				meta: item.meta
+			}
+			if (hasChild(item) && showThisMenuEle(item, access)) {
+				obj.children = getMenuByRouter(item.children, access)
+			}
+			if (item.meta.href) obj.href = item.meta.href
+			if (showThisMenuEle(item, access)) res.push(obj)
+		}
+	})
+	return res
 }
 
 /**
@@ -73,40 +73,41 @@ export const getMenuByRouter = (list, access) => {
  * @returns {Array}
  */
 export const getBreadCrumbList = (routeMetched) => {
-  let res = routeMetched.filter(item => {
-    return item.meta === undefined || !item.meta.hide
-  }).map(item => {
-    let obj = {
-      icon: (item.meta && item.meta.icon) || '',
-      name: item.name,
-      meta: item.meta
-    }
-    return obj
-  })
-  res = res.filter(item => {
-    return !item.meta.hideInMenu
-  })
-  return [{
-    name: '我的桌面',
-    to: '/home',
-    icon: 'home'
-  }, ...res]
+	let res = routeMetched.filter(item => {
+		return item.meta === undefined || !item.meta.hide
+	}).map(item => {
+		let obj = {
+			icon: (item.meta && item.meta.icon) || '',
+			name: item.name,
+			meta: item.meta
+		}
+		return obj
+	})
+	res = res.filter(item => {
+		return !item.meta.hideInMenu
+	})
+	return [{
+		name: '控制台',
+		to: '/home',
+		icon: 'home'
+	}, ...res]
 }
 
+// 设置tab导航标题
 export const showTitle = (item, vm) => (item.meta && item.meta.title) || item.name
 
 /**
  * @description 本地存储和获取标签导航列表
  */
 export const setTagNavListInLocalstorage = list => {
-  localStorage.tagNaveList = JSON.stringify(list)
+	localStorage.tagNaveList = JSON.stringify(list)
 }
 /**
  * @returns {Array} 其中的每个元素只包含路由原信息中的name, path, meta三项
  */
 export const getTagNavListFromLocalstorage = () => {
-  const list = localStorage.tagNaveList
-  return list ? JSON.parse(list) : []
+	const list = localStorage.tagNaveList
+	return list ? JSON.parse(list) : []
 }
 
 /**
@@ -114,19 +115,19 @@ export const getTagNavListFromLocalstorage = () => {
  * @description 用于找到路由列表中name为home的对象
  */
 export const getHomeRoute = routers => {
-  let i = -1
-  let len = routers.length
-  let homeRoute = {}
-  while (++i < len) {
-    let item = routers[i]
-    if (item.children && item.children.length) {
-      let res = getHomeRoute(item.children)
-      if (res.name) return res
-    } else {
-      if (item.name === 'home') homeRoute = item
-    }
-  }
-  return homeRoute
+	let i = -1
+	let len = routers.length
+	let homeRoute = {}
+	while (++i < len) {
+		let item = routers[i]
+		if (item.children && item.children.length) {
+			let res = getHomeRoute(item.children)
+			if (res.name) return res
+		} else {
+			if (item.name === 'home') homeRoute = item
+		}
+	}
+	return homeRoute
 }
 
 /**
@@ -135,11 +136,11 @@ export const getHomeRoute = routers => {
  * @description 如果该newRoute已经存在则不再添加
  */
 export const getNewTagList = (list, newRoute) => {
-  const { name, path, meta } = newRoute
-  let newList = [...list]
-  if (newList.findIndex(item => item.name === name) >= 0) return newList
-  else newList.push({ name, path, meta })
-  return newList
+	const { name, path, meta } = newRoute
+	let newList = [...list]
+	if (newList.findIndex(item => item.name === name) >= 0) return newList
+	else newList.push({ name, path, meta })
+	return newList
 }
 
 /**
@@ -173,7 +174,7 @@ const hasAccess = (access, route) => {
   return canTurnToNames.indexOf(name) > -1
  */
 export const canTurnTo = (name, access, routes) => {
-  return true
+	return true
 }
 
 /**
@@ -181,13 +182,13 @@ export const canTurnTo = (name, access, routes) => {
  * @description 从URL中解析参数
  */
 export const getParams = url => {
-  const keyValueArr = url.split('?')[1].split('&')
-  let paramObj = {}
-  keyValueArr.forEach(item => {
-    const keyValue = item.split('=')
-    paramObj[keyValue[0]] = keyValue[1]
-  })
-  return paramObj
+	const keyValueArr = url.split('?')[1].split('&')
+	let paramObj = {}
+	keyValueArr.forEach(item => {
+		const keyValue = item.split('=')
+		paramObj[keyValue[0]] = keyValue[1]
+	})
+	return paramObj
 }
 
 /**
@@ -195,14 +196,14 @@ export const getParams = url => {
  * @param {String} name 当前关闭的标签的name
  */
 export const getNextName = (list, name) => {
-  let res = ''
-  if (list.length === 2) {
-    res = 'home'
-  } else {
-    if (list.findIndex(item => item.name === name) === list.length - 1) res = list[list.length - 2].name
-    else res = list[list.findIndex(item => item.name === name) + 1].name
-  }
-  return res
+	let res = ''
+	if (list.length === 2) {
+		res = 'home'
+	} else {
+		if (list.findIndex(item => item.name === name) === list.length - 1) res = list[list.length - 2].name
+		else res = list[list.findIndex(item => item.name === name) + 1].name
+	}
+	return res
 }
 
 /**
@@ -210,10 +211,10 @@ export const getNextName = (list, name) => {
  * @param {Function} callback 回调函数
  */
 export const doCustomTimes = (times, callback) => {
-  let i = -1
-  while (++i < times) {
-    callback()
-  }
+	let i = -1
+	while (++i < times) {
+		callback()
+	}
 }
 
 /**
@@ -222,24 +223,24 @@ export const doCustomTimes = (times, callback) => {
  * @description 从Csv文件中解析出表格，解析成二维数组
  */
 export const getArrayFromFile = (file) => {
-  let nameSplit = file.name.split('.')
-  let format = nameSplit[nameSplit.length - 1]
-  return new Promise((resolve, reject) => {
-    let reader = new FileReader()
-    reader.readAsText(file) // 以文本格式读取
-    let arr = []
-    reader.onload = function (evt) {
-      let data = evt.target.result // 读到的数据
-      let pasteData = data.trim()
-      arr = pasteData.split((/[\n\u0085\u2028\u2029]|\r\n?/g)).map(row => {
-        return row.split('\t')
-      }).map(item => {
-        return item[0].split(',')
-      })
-      if (format === 'csv') resolve(arr)
-      else reject(new Error('[Format Error]:你上传的不是Csv文件'))
-    }
-  })
+	let nameSplit = file.name.split('.')
+	let format = nameSplit[nameSplit.length - 1]
+	return new Promise((resolve, reject) => {
+		let reader = new FileReader()
+		reader.readAsText(file) // 以文本格式读取
+		let arr = []
+		reader.onload = function(evt) {
+			let data = evt.target.result // 读到的数据
+			let pasteData = data.trim()
+			arr = pasteData.split((/[\n\u0085\u2028\u2029]|\r\n?/g)).map(row => {
+				return row.split('\t')
+			}).map(item => {
+				return item[0].split(',')
+			})
+			if (format === 'csv') resolve(arr)
+			else reject(new Error('[Format Error]:你上传的不是Csv文件'))
+		}
+	})
 }
 
 /**
@@ -248,53 +249,53 @@ export const getArrayFromFile = (file) => {
  * @description 从二维数组中获取表头和表格数据，将第一行作为表头，用于在iView的表格中展示数据
  */
 export const getTableDataFromArray = (array) => {
-  let columns = []
-  let tableData = []
-  if (array.length > 1) {
-    let titles = array.shift()
-    columns = titles.map(item => {
-      return {
-        title: item,
-        key: item
-      }
-    })
-    tableData = array.map(item => {
-      let res = {}
-      item.forEach((col, i) => {
-        res[titles[i]] = col
-      })
-      return res
-    })
-  }
-  return {
-    columns,
-    tableData
-  }
+	let columns = []
+	let tableData = []
+	if (array.length > 1) {
+		let titles = array.shift()
+		columns = titles.map(item => {
+			return {
+				title: item,
+				key: item
+			}
+		})
+		tableData = array.map(item => {
+			let res = {}
+			item.forEach((col, i) => {
+				res[titles[i]] = col
+			})
+			return res
+		})
+	}
+	return {
+		columns,
+		tableData
+	}
 }
 
 export const findNodeUpper = (ele, tag) => {
-  if (ele.parentNode) {
-    if (ele.parentNode.tagName === tag.toUpperCase()) {
-      return ele.parentNode
-    } else {
-      return findNodeUpper(ele.parentNode, tag)
-    }
-  }
+	if (ele.parentNode) {
+		if (ele.parentNode.tagName === tag.toUpperCase()) {
+			return ele.parentNode
+		} else {
+			return findNodeUpper(ele.parentNode, tag)
+		}
+	}
 }
 
 export const findNodeDownward = (ele, tag) => {
-  const tagName = tag.toUpperCase()
-  if (ele.childNodes.length) {
-    let i = -1
-    let len = ele.childNodes.length
-    while (++i < len) {
-      let child = ele.childNodes[i]
-      if (child.tagName === tagName) return child
-      else return findNodeDownward(child, tag)
-    }
-  }
+	const tagName = tag.toUpperCase()
+	if (ele.childNodes.length) {
+		let i = -1
+		let len = ele.childNodes.length
+		while (++i < len) {
+			let child = ele.childNodes[i]
+			if (child.tagName === tagName) return child
+			else return findNodeDownward(child, tag)
+		}
+	}
 }
 
 export const showByAccess = (access, canViewAccess) => {
-  return hasOneOf(canViewAccess, access)
+	return hasOneOf(canViewAccess, access)
 }

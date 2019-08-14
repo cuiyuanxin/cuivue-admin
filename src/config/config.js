@@ -1,7 +1,6 @@
 /**
  * 设置公共变量信息
  */
-console.log()
 // 默认站点title
 export const TITLE = 'cuivue-admin'
 // api接口地址

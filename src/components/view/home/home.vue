@@ -1,20 +1,19 @@
 <template>
-	<div>
-    	1223454354
-  	</div>
+<div>
+	我是默认首页
+</div>
 </template>
 
 <script>
-	export default {
-		name: 'home',
-		data () {
-			return {
-			
-			}
-		},
-		mounted () {
-			//
-		}
-	}
-</script>	
+export default {
+	name: 'home',
+	data() {
+		return {
 
+		}
+	},
+	mounted() {
+		//
+	}
+}
+</script>

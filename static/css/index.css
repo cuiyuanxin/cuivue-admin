@@ -39,7 +39,7 @@ body, html {
 .layout {
   display: flex;
   flex-direction: column;
-  flex: auto
+  flex: auto;
 }
 
 .layout.top-layout {
@@ -52,14 +52,22 @@ body, html {
 
 .layout-header {
   height: 50px;
+  z-index: 1030;
 }
 
 .layout-sider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-top: 50px;
   width: 230px;
   max-width: 230px;
   min-width: 230px;
+  min-height: 100%;
+  z-index: 810;
   flex: 0 0 230px;
-  transition: all .2s ease-in-out
+  -webkit-transition: -webkit-transform .3s ease-in-out,width .3s ease-in-out;
+  transition: transform .3s ease-in-out,width .3s ease-in-out;
 }
 
 .layout-sider.min {
@@ -69,8 +77,34 @@ body, html {
   flex: 0 0 50px;
 }
 
+@media (max-width:768px) {
+  .layout-sider.min {
+    display: none;
+  }
+}
+
 .layout-tab {
   min-height: 40px;
+}
+
+.cui-content-wrapper {
+  margin-left: 230px;
+  z-index: 800;
+}
+
+.min+.cui-content-wrapper {
+  margin-left: 50px !important;
+}
+
+@media (max-width:768px) {
+  .cui-content-wrapper {
+    margin-left: 0px;
+    z-index: 800;
+  }
+
+  .min+.cui-content-wrapper {
+    margin-left: 0px !important;
+  }
 }
 
 .layout-content {
@@ -158,6 +192,15 @@ body, html {
   font-size: 14px;
 }
 
+.header-right .user .ivu-select-dropdown .ivu-dropdown-item-disabled {
+  display: none;
+}
+
+.header-right .user .ivu-select-dropdown .ivu-dropdown-item-divided:nth-child(2) {
+  margin-top: 0px;
+  border-top: none;
+}
+
 @media (max-width:768px) {
 
   .header>ul>li>a.notification,
@@ -165,6 +208,19 @@ body, html {
   .header>ul>li>a.fullscreen,
   .header>ul>li>a.setting {
     display: none
+  }
+
+  .header-right .user .user-text {
+    display: none;
+  }
+
+  .header-right .user .ivu-select-dropdown .ivu-dropdown-item-disabled {
+    display: block;
+  }
+
+  .header-right .user .ivu-select-dropdown .ivu-dropdown-item-divided:nth-child(2) {
+    margin-top: 5px;
+    border-top: 1px solid #e8eaec;
   }
 }
 
@@ -207,7 +263,7 @@ body, html {
   padding: 6px 15px;
   width: 100%;
   text-align: center;
-  color: #495060
+  color: #b8c7ce
 }
 
 .sider-nav .menu-user-avator {
@@ -254,11 +310,12 @@ body, html {
 }
 
 .sider-nav .ivu-menu-vertical>.ivu-menu-item, .sider-nav .ivu-menu-vertical>.ivu-menu-submenu>.ivu-menu-submenu-title {
-  background: #222d32
+  background: #222d32;
 }
 
 .sider-nav .ivu-menu-vertical>.ivu-menu-item:hover, .sider-nav .ivu-menu-vertical>.ivu-menu-submenu>.ivu-menu-submenu-title:hover {
-  background: #1e282c
+  color: #fff;
+  background: #1e282c;
 }
 
 .sider-nav .ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item:hover {
@@ -268,6 +325,7 @@ body, html {
 }
 
 .sider-nav .ivu-menu-vertical .ivu-menu-opened .ivu-menu-submenu-title {
+  color: #fff;
   background: #1e282c
 }
 

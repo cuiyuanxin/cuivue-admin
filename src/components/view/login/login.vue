@@ -13,12 +13,6 @@
 				<FormItem label="" prop="password">
 					<Input type="password" v-model="formLogin.password" placeholder="请输入密码" icon="ios-lock-outline"></Input>
 				</FormItem>
-				<!-- <FormItem>
-					<img :src="formLogin.verifyImg" alt="验证码" class="cui-verify-img" v-on:click="refreshVerify" title="点击获取">
-				</FormItem>
-				<FormItem label="" prop="verify">
-					<Input type="text" v-model="formLogin.verify" placeholder="请输入验证码" icon="ios-code" ></Input>
-				</FormItem> -->
 				<FormItem>
 					<Button type="primary" long @click="handleSubmit('formLogin')">登 录</Button>
 				</FormItem>
@@ -30,18 +24,15 @@
 </template>
 
 <script>
-import { TITLE } from '@/config/config' // 导入公共变量
-import { mapMutations, mapActions } from 'vuex'
-import { getVerify, setLogin, isValidation } from '@/api/login'
+import { HOME_PAGE_NAME } from '@/config/config' // 导入公共变量
+import { mapActions } from 'vuex'
 export default {
 	name: 'login',
 	data() {
 		return {
 			formLogin: {
 				username: '',
-				password: '',
-				// verify: '',
-				// verifyImg: getVerify
+				password: ''
 			},
 			ruleValidate: {
 				username: [
@@ -168,26 +159,27 @@ export default {
 		}
 	},
 	methods: {
-		// 刷新验证码
-		refreshVerify: function() {
-			this.formLogin.verifyImg = getVerify
-			if(this.formLogin.verify) {
-				this.formLogin.verify = ''
-			}
-		},
+		...mapActions([
+			'handleLogin',
+			'getUserInfo'
+		]),
 		// 点击提交表单
 		handleSubmit(name) {
 			const that = this
 			that.$refs[name].validate(valid => {
 				if (valid) {
-					setLogin(that.formLogin.username, that.formLogin.password).then((res) => {
-						if(res.code == 0) {
-
-						}
+					const username = that.formLogin.username
+					const password = that.formLogin.password
+					that.handleLogin({ username, password }).then(res => {
+						that.getUserInfo().then(res => {
+							this.$router.push({
+								name: HOME_PAGE_NAME
+							})
+						})
 					})
 				} else {
 					console.log('error submit!!')
-        			return false
+					return false
 				}
 			})
 		}

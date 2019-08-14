@@ -30,3 +30,11 @@ export const isValidation = (username, password) => {
 		method: 'post'
 	})
 }
+
+// 退出登录
+export const setlLogout = (token) => {
+	return axios.request({
+		url: '/admin/login/logout',
+		method: 'post'
+	})
+}
