@@ -46,6 +46,22 @@ export default {
 					reject(err)
 				})
 			})
-		}
+		},
+		// 提交用户数据
+		handleSave({ commit }, formData) {
+			return new Promise((resolve, reject) => {
+
+				// setLogin(
+                	formData
+                // ).then(res => {
+				// 	if (res.code === 0) {
+				// 		commit('setToken', res.data)
+				// 		resolve()
+				// 	}
+				// }).catch(err => {
+				// 	reject(err)
+				// })
+			})
+		},
 	}
 }

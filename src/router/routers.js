@@ -41,12 +41,12 @@ export default [{
 		},
 		children: [{
 				path: 'user',
-				name: 'userList',
+				name: 'user',
 				meta: {
 					icon: 'user',
 					title: '用户管理'
 				},
-				component: () => import('@/components/view/system/user/userList.vue')
+				component: () => import('@/components/view/system/user/user.vue')
 			},
 			// 		{
 			// 			path: 'role',
